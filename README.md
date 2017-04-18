@@ -30,6 +30,17 @@ Provide HMAC algorithm and secret key:
         role Manager
     The JWT has been copied to your clipboard!
 
+You can store options `key` and `algorithm` in configuration file `.jwtgen` stored in your user folder
+
+    --key 2f27090cf62f34c1dcfd4b1de3809bb8b1ab31f0b376d1cf8c36827f4d5ad2dd
+    --algorithm HS512
+
+NOTE: Supplied options have a higher priority than options stored in the configuration file.
+
+Create file with single cammand (don't forget to replace the key):
+
+    $ echo "--key 2f27090cf62f34c1dcfd4b1de3809bb8b1ab31f0b376d1cf8c36827f4d5ad2dd\n--algorithm HS512" > ~/.jwtgen
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

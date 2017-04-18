@@ -1,4 +1,11 @@
 #!/usr/bin/env ruby
+
+config_file = File.join(File.expand_path('~'), '.jwtgen')
+if File.exist?(config_file)
+  default_argv = File.read(config_file).split
+  ARGV.unshift(*default_argv)
+end
+
 require 'optparse'
 
 options = {}
