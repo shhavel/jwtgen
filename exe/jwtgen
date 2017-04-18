@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+  ALGORITHMS = %w(HS256 HS512256 HS384 HS512)
+  opts.banner = 'Usage: jwtgen [options]'
+
+  opts.on('--payload key1=value1,key2=value2,key3=value3', Array, 'JWT payload. Required keys: `user_id` and `email`.') do |payload|
+    options[:payload] = payload
+  end
+  opts.on('--separator SEPARATOR', 'Payload key-value separator (default "=")') do |separator|
+    options[:separator] = separator
+  end
+  opts.on('--key KEY', 'HMAC secret key') do |key|
+    options[:key] = key
+  end
+  opts.on('--algorithm ALGORITHM', ALGORITHMS, 'Cryptographic hash algorithm, one of: none, HS256 HS512256 HS384 HS512') do |algorithm|
+    options[:algorithm] = algorithm
+  end
+end.parse!
+
+require 'jwtgen'
+require 'clipboard'
+
+begin
+  Clipboard.copy Jwtgen.new(options).encode
+  puts 'The JWT has been copied to your clipboard!'
+  exit
+rescue ArgumentError => e
+  abort("** Error occurred: #{e.message}. Get help: jwtgen --help")
+end
