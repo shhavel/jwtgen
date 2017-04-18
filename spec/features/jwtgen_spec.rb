@@ -6,7 +6,7 @@ RSpec.describe "CLI", type: :aruba do
     context "invalid email" do
       before do
         run "jwtgen --key my$ecretK3y --algorithm HS512 "\
-            "--payload user_id=1123,email=INVALID,first_name=Jack,last_name=Hackett"
+            'user_id 1123 email INVALID name "Dougal McGuire" role Manager'
       end
 
       it "exits with status 1 and prints error message" do
@@ -18,7 +18,7 @@ RSpec.describe "CLI", type: :aruba do
     context "unknown algorithm" do
       before do
         run "jwtgen --key my$ecretK3y --algorithm UNKNOWN "\
-            "--payload user_id=1123,email=jack.hackett@example.com,first_name=Jack,last_name=Hackett"
+            'user_id 1123 email dougal.mcguire@example.com name "Dougal McGuire" role Manager'
       end
 
       it "exits with status 1 and prints error message" do
@@ -31,7 +31,7 @@ RSpec.describe "CLI", type: :aruba do
   context "with valid options" do
     before do
       run "jwtgen --key my$ecretK3y --algorithm HS512 "\
-          "--payload user_id=1123,email=jack.hackett@example.com,first_name=Jack,last_name=Hackett"
+          'user_id 1123 email dougal.mcguire@example.com name "Dougal McGuire" role Manager'
     end
 
     it "generates JWT and copies it into clipboard" do
@@ -40,9 +40,9 @@ RSpec.describe "CLI", type: :aruba do
       decoded_payload = JWT.decode(Clipboard.paste, "my$ecretK3y", true, algorithm: "HS512").first
       expect(decoded_payload).to eq({
         "user_id"=>"1123",
-        "email"=>"jack.hackett@example.com",
-        "first_name"=>"Jack",
-        "last_name"=>"Hackett"})
+        "email"=>"dougal.mcguire@example.com",
+        "name"=>"Dougal McGuire",
+        "role"=>"Manager"})
     end
   end
 
@@ -54,10 +54,9 @@ RSpec.describe "CLI", type: :aruba do
     it "generates JWT and copies it into clipboard" do
       expect(last_command_started).to be_successfully_executed
       expect(last_command_started).to have_output <<-EOF.gsub(/^ {8}/, '').chomp
-        Usage: jwtgen [options]
-                --payload key1=value1,key2=value2,key3=value3
-                                             JWT payload. Required keys: `user_id` and `email`.
-                --separator SEPARATOR        Payload key-value separator (default "=")
+        Usage: jwtgen [options] [arguments]
+                arguments                    JWT payload key-value pairs, e.g. key1 value1 key2 value2 key3 value3
+                                             Required inputs (keys) are user_id and email.
                 --key KEY                    HMAC secret key
                 --algorithm ALGORITHM        Cryptographic hash algorithm, one of: none, HS256 HS512256 HS384 HS512
       EOF

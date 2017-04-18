@@ -18,18 +18,17 @@ Check dependencies of [Ruby Clipboard](https://github.com/janlelis/clipboard/)
 
 Basic usage without encryption:
 
-```sh
-$ jwtgen --payload user_id=1234,email=ted.crilly@example.com
-The JWT has been copied to your clipboard!
-```
+    $ jwtgen user_id 1234 email ted.crilly@example.com
+    The JWT has been copied to your clipboard!
 
 Provide HMAC algorithm and secret key:
 
-```sh
-$ jwtgen --key my$ecretK3y --algorithm HS512 \
-    --payload user_id=9876,email=dougal.mcguire@example.com,first_name=Dougal,last_name=McGuire
-The JWT has been copied to your clipboard!
-```
+    $ jwtgen --key my$ecretK3y --algorithm HS512 \
+        user_id 1234 \
+        email dougal.mcguire@example.com \
+        name "Dougal McGuire" \
+        role Manager
+    The JWT has been copied to your clipboard!
 
 ## Development
 
