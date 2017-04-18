@@ -1,8 +1,8 @@
 shared_examples "JWT generator" do |opts, token, decoded_token_payload|
   let(:gen) { Jwtgen.new(opts) }
   subject { gen.encode }
-  let(:key) { gen.instance_variable_get(:@key) }
-  let(:algorithm) { gen.instance_variable_get(:@algorithm) }
+  let(:key) { opts[:key] }
+  let(:algorithm) { opts.fetch(:algorithm, 'none') }
 
   it "generates JSON Web Token" do
     should eq(token)
