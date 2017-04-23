@@ -1,7 +1,7 @@
 require "spec_helper"
 
 RSpec.describe Jwtgen do
-  describe '.new' do
+  describe ".new" do
     it "requires option payload kind of Hash" do
       expect { Jwtgen.new({}) }.to raise_error ArgumentError, "Option `payload` is required"
       expect { Jwtgen.new(payload: []) }.to raise_error ArgumentError, "Option `payload` is required"
@@ -22,7 +22,7 @@ RSpec.describe Jwtgen do
     end
   end
 
-  describe '#encode' do
+  describe "#encode" do
     it_behaves_like "JWT generator", { payload: { user_id: "12312", email: "syed@thredup.com" } },
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJ1c2VyX2lkIjoiMTIzMTIiLCJlbWFpbCI6InN5ZWRAdGhyZWR1cC5jb20ifQ.",
       "user_id" => "12312",
