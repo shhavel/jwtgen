@@ -64,7 +64,7 @@ RSpec.describe "CLI", type: :aruba do
   end
 
   context "config file" do
-    let(:config_file) { File.join(File.expand_path("~"), ".jwtgenrc") }
+    let(:config_file) { File.join(File.expand_path("~"), ".jwtgen") }
     before do
       File.open(config_file, "w") do |f|
         f.write "--key 2f27090cf62f34c1dcfd4b1de3809bb8b1ab31f0b376d1cf8c36827f4d5ad2dd\n" \
